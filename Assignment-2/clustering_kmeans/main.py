@@ -34,8 +34,7 @@ def findClosestCentres(X,mu):
       # adding the index of x to the correct center array list
       C[c_no].append(i)
       i += 1         
-      
-  print(C)
+
   return C
   
 def updateCentres(X,C):
