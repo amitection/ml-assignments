@@ -26,10 +26,10 @@ def computeCost(X, y, theta, lambd):
   
   penalty_adjustment = np.multiply(lambd, theta.T.dot(theta))
   
-  
-  y_x_theta = np.multiply(y, predict(X, theta))
-  hinge = [ max(0 - elem, 1 - elem) for elem in y_x_theta]
- 
+  y_x_theta = np.multiply(y, X.dot(theta))
+  #hinge = [ max(0 - elem, 1 - elem) for elem in y_x_theta]
+  hinge = np.maximum(0,1 - y_x_theta)
+    
   j_theta = np.mean(hinge) + penalty_adjustment
   cost = j_theta
   return cost
@@ -40,7 +40,7 @@ def computeGradient(X,y,theta,lambd):
 
   m, n = X.shape
   
-  y_x_theta = np.multiply(y, predict(X, theta))
+  y_x_theta = np.multiply(y, X.dot(theta))
 
   # solving for indicator function
   indicator_fn = np.where(y_x_theta <= 1, 1.0, 0.0)
@@ -65,7 +65,6 @@ def gradientDescent(X, y, theta,lambd):
   for i in range(iters):
     theta = theta - alpha * computeGradient(X,y,theta,lambd)
     cost[i] = computeCost(X, y, theta,lambd)
-  print(theta)
   return theta, cost
 
 def normaliseData(x):
@@ -154,7 +153,7 @@ def main():
   # rescale training data to lie between 0 and 1
   (Xt,Xscale) = normaliseData(Xt)
   
-  lambd= 0.01
+  lambd= 0.00
 
   print('testing the prediction function ...')
   theta=np.arange(1,n+1)
