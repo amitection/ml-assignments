@@ -5,9 +5,6 @@ def distance(X,mu):
   # calculate the euclidean distance between numpy arrays X and mu
   (m,n)=X.shape
   d=np.zeros(m)
-  ##### insert your code here #####
-  #print("X Shape", X.shape)  
-  #print("MU Shape", mu.shape)
   
   sub_res = np.power(X - mu, 2)
   d = [np.sum(t) for t in sub_res]
@@ -20,7 +17,7 @@ def findClosestCentres(X,mu):
   (m,n)=X.shape # m is number of data points
   C=list()
   
-  for t in range(mu.size):
+  for t in range(k):
       C.append([])
   
   i = 0
@@ -41,9 +38,22 @@ def updateCentres(X,C):
   # updates the centres to be the average of the points closest to it.  
   k=len(C) # k is number of centres
   (m,n)=X.shape # n is number of features
-  mu=np.zeros((k,n))
+  mu=[]
   ##### insert your code here #####
-  return mu
+  
+  i = 0
+  
+  for c in C:
+      x_belonging_to_c = []
+      for index in c:
+          x_belonging_to_c.append(X[index])
+    
+      x_belonging_to_c = np.array(x_belonging_to_c)
+      mu.append(np.sum(x_belonging_to_c, axis = 0) / len(x_belonging_to_c))
+      
+      i += 1
+  
+  return np.array(mu)
 
 def plotData(X,C,mu):
   # plot the data, coloured according to which centre is closest. and also plot the centres themselves
